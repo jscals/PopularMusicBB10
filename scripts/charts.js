@@ -1,36 +1,12 @@
-/*
- * replaced with below, using jquery
-function loadFunc(){
-    
-    var mainTitle = document.getElementById("mainTitle");
-    var buttonBar = document.getElementById("buttonRow");
-    var listContainer = document.getElementById("list");
-    
-    mainTitle.style.backgroundRepeat ="no-repeat";
-   
-    if(screen.width > 730){
-        //if > 730 pixels, is Z10 so set container heights and insert proper Title banner.
-        mainTitle.style.backgroundImage ="url(images/Z10banner.png)";
-        buttonBar.style.height = "6%";
-        listContainer.style.height="75%";
-    }
-    else{
-        mainTitle.style.backgroundImage ="url(images/Q10banner.png)";
-    }
-    
-    buttonSelection("http://www.billboard.com/rss/charts/hot-100", "songs");
-};
-*/
-
+//Initial loading function
+//Determines what BB10 device is being used by checking the scren width,
+//adjusts the title bar and list properties accordingly so app displays correctly.
 $(document).ready(function(){
     var mainTitle = document.getElementById("mainTitle");
-    //var mainTitle = $("#mainTitle");
     var buttonBar = $("#buttonRow");
     var listContainer = $("#list");
     
     mainTitle.style.backgroundRepeat ="no-repeat";
-    //mainTitle.css("backgroundRepeat", "no-repeat");
-     
    
     if(screen.width > 730){
         //if > 730 pixels, is Z10 so set container heights and insert proper Title banner.
@@ -44,38 +20,14 @@ $(document).ready(function(){
          mainTitle.style.height = "72px";
     }
     
-    /*Initalize the advertising service and display banner. Edit: Ads not supported in Webworks yet.
-    var zoneId = #####; // Provided by RIM
-    var bannerObj =new blackberry.advertising.Banner(zoneId, "banner");*/
-    
     $('#songs').trigger('vclick');
     
 });
 
 
-
-/*Replaced with below function, optimized for touch
-function buttonSelection(address, buttonID){
-    //put border around the button whichrepresents the selection currently being listed.
-    if(buttonID === "songs"){
-        var selectedButton = document.getElementById("songs");
-        selectedButton.style.border="2px solid yellow";
-        
-        var otherButton = document.getElementById("albums");
-        otherButton.style.border="0px solid yellow";
-    }
-    else{
-        var selectedButton = document.getElementById("albums");
-        selectedButton.style.border="2px solid yellow";
-        
-        var otherButton = document.getElementById("songs");
-        otherButton.style.border="0px solid yellow";
-    }
-    
-    getRSSFeed(address);
-}
-*/
-
+//vlick (user finger tap) listener for each button.
+//Will put a border around the selected button, and remove
+//it from the other button if present. Initalizes new list. 
 $(document).on( "vclick", ".button", function() {
     
     if(this.id === "songs"){
@@ -92,7 +44,10 @@ $(document).on( "vclick", ".button", function() {
 });
 
 
+//Provided with an rss address string, will make an ajax call
+//and retrieve the text. Calls listSongs with response.
 function getRSSFeed(address) {
+    
     var req = new XMLHttpRequest();
     req.open("GET", address, true);
     req.send(null);
@@ -108,6 +63,8 @@ function getRSSFeed(address) {
 };
 
 
+//Clears current list, parses ajax response text, creates and
+//adds each new item to list. (with helper function createSongEntry).
 function listSongs(xmlFeedText){
     
     //clear the contents of the list div
@@ -136,6 +93,7 @@ function listSongs(xmlFeedText){
 //creates a song/album DOM element containing the rank/name/artist of the item, 
 //with inner div containers for the rank and song/album name and artist.
 function createSongEntry(song){
+    
     //extract song information from XML dom element
     var songInfoTag = song.getElementsByTagName("title");
     
