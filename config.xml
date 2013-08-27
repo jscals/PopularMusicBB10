@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        version="1.0.0.0" id="TopSongs">  
+    <name>Top Songs and Albums This Week</name>
+    <author>Jon Scalise</author>
+    <description>The weeks 100 most popular songs and albums on the Billboard charts.</description>
+    <icon src="images/icon.png"/>
+    <content src="index.html"/>
+    <access uri="http://www.billboard.com" subdomains="true" />
+    
+    <access subdomains="true" uri="http://www.blackberry.com/">
+        <feature id="blackberry.advertising" required="true" version="1.0.0"/>
+    </access>
+    <access subdomains="false" uri="*"/>
+    
+    <feature id="blackberry.app">
+        <param name="orientation" value="portrait" />
+    </feature>
+</widget>
